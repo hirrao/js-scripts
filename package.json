@@ -1,0 +1,36 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "type": "module",
+  "_moduleAliases": {
+    "@/": "."
+  },
+  "scripts": {
+    "lint": "eslint ./src",
+    "format": "prettier --write .",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "test": "tsc && node dist/main.js tests"
+  },
+  "keywords": [],
+  "author": "hirrao",
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.13.11",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
+    "inquirer": "^12.5.0",
+    "module-alias": "^2.2.3",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.27.0"
+  },
+  "dependencies": {
+    "glob": "^11.0.1"
+  }
+}
