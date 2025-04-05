@@ -1,12 +1,17 @@
 import path from "path";
-import { ModsConfig } from "./modsConfig/index.js";
+import { ModsConfig } from "./Config/ModsConfig.js";
+import { BilibiliConfig } from "./Config/BilibiliConfig.js";
 import fs from "fs";
+import { GithubUserConfig } from "./Config/GithubUserConfig.js";
 
 export interface Config {
   modsConfig: ModsConfig;
+  bilibiliConfig: BilibiliConfig;
+  githubUserConfig: GithubUserConfig;
 }
 
-const filePath = path.join(import.meta.dirname, "../../config.json");
+const configDir = path.join(import.meta.dirname, "../../config");
+const filePath = path.join(configDir, "./config.json");
 
 export const createConfig = (): Config => {
   const config = {
@@ -14,8 +19,17 @@ export const createConfig = (): Config => {
       modPath: [],
       mods: [],
     },
+    bilibiliConfig: {
+      videoBasePath: "",
+    },
+    githubUserConfig: {
+      token: "",
+    },
   };
   console.log("Creating config file...");
+  if (!fs.existsSync(configDir)) {
+    fs.mkdirSync(path.dirname(configDir));
+  }
   fs.writeFileSync(filePath, JSON.stringify(config, null, 2), "utf-8");
   return config;
 };
@@ -33,3 +47,7 @@ export const saveConfig = (config: Config) => {
 };
 
 export const config = readConfig();
+
+process.on("exit", () => {
+  saveConfig(config);
+});

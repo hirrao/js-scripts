@@ -1,4 +1,4 @@
-import { Mods } from "../data/modsConfig/index.js";
+import { Mods } from "../data/Config/ModsConfig.js";
 import { updateMods } from "../libs/updateGTNHMods.js";
 
 const mod: Mods[] = [
