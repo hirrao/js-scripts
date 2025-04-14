@@ -3,6 +3,8 @@ import { ModsConfig } from "./Config/ModsConfig.js";
 import { BilibiliConfig } from "./Config/BilibiliConfig.js";
 import fs from "fs";
 import { GithubUserConfig } from "./Config/GithubUserConfig.js";
+import { defaultConfig } from "./Config/DefaultConfig.js";
+import merge from "lodash.merge";
 
 export interface Config {
   modsConfig: ModsConfig;
@@ -14,23 +16,11 @@ const configDir = path.join(import.meta.dirname, "../../config");
 const filePath = path.join(configDir, "./config.json");
 
 export const createConfig = (): Config => {
-  const config = {
-    modsConfig: {
-      modPath: [],
-      mods: [],
-    },
-    bilibiliConfig: {
-      videoBasePath: "",
-    },
-    githubUserConfig: {
-      token: "",
-    },
-  };
   console.log("Creating config file...");
   if (!fs.existsSync(configDir)) {
     fs.mkdirSync(path.dirname(configDir));
   }
-  fs.writeFileSync(filePath, JSON.stringify(config, null, 2), "utf-8");
+  fs.writeFileSync(filePath, JSON.stringify(defaultConfig, null, 2), "utf-8");
   return config;
 };
 
@@ -38,7 +28,8 @@ export const readConfig = (): Config => {
   if (!fs.existsSync(filePath)) {
     return createConfig();
   }
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  const read = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  return merge({}, read, defaultConfig);
 };
 
 export const saveConfig = (config: Config) => {

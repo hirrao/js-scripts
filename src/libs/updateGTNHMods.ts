@@ -8,7 +8,7 @@ import chalk from "chalk";
 
 const modPath = config.modsConfig.modPath;
 
-export const updateMods = async (mods: Mods[]) => {
+export const updateMods = async (mods: Mods[], update = false) => {
   mods.forEach(async (mod) => {
     const oldFileName = `${mod.name}-${mod.version}.jar`;
     const response = await fetch(
@@ -35,6 +35,10 @@ export const updateMods = async (mods: Mods[]) => {
     if (mod.version === newVersionName) {
       console.log(`${chalk.blue(mod.name)}已经是最新版本`);
       return 1;
+    }
+    if (update) {
+      console.log(`${chalk.blue(mod.name)}存在更新版本${newVersionTag}`);
+      return 0;
     }
     console.log(
       `${chalk.blue(mod.name)}的最新版本是${newVersionTag}, 正在尝试更新`,
@@ -77,7 +81,15 @@ const addMods = async () => {
 
 export const checkUpdateMods = async () => {
   if (argv[3]) {
-    addMods();
+    const arg = argv[3];
+    switch (arg) {
+      case "add":
+        addMods();
+        break;
+      case "update":
+        updateMods(config.modsConfig.mods, true);
+        break;
+    }
   } else {
     await updateMods(config.modsConfig.mods);
   }
