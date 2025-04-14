@@ -29,7 +29,7 @@ export const readConfig = (): Config => {
     return createConfig();
   }
   const read = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-  return merge({}, read, defaultConfig);
+  return merge({}, defaultConfig, read);
 };
 
 export const saveConfig = (config: Config) => {
