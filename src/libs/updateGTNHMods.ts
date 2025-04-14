@@ -60,6 +60,8 @@ export const updateMods = async (mods: Mods[], update = false) => {
     modPath.forEach((path) => {
       if (fs.existsSync(`${path}/${oldFileName}`)) {
         fs.unlinkSync(`${path}/${oldFileName}`);
+      } else {
+        console.log(`${chalk.red(oldFileName)}不存在`);
       }
       fs.cpSync(newFileName, `${path}/${newFileName}`);
     });
